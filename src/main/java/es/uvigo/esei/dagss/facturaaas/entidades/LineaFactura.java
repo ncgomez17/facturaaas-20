@@ -27,7 +27,7 @@ public class LineaFactura implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn( name = "TIPOIVA_ID")
     private TipoIVA tipoIVA;
     
@@ -37,17 +37,17 @@ public class LineaFactura implements Serializable {
     
     
     private String concepto;
-    private Long cantidad;
-    private Long precioUnitario;
-    private Long porcentajeDescuento;
-    private Long importeTotal;
+    private Double cantidad;
+    private Double precioUnitario;
+    private Double porcentajeDescuento;
+    private Double importeTotal;
 
     public LineaFactura() {
     }
 
-    public LineaFactura(Long id, TipoIVA tipoIVA, String concepto, Long cantidad, Long precioUnitario, Long porcentajeDescuento, Long importeTotal) {
-        this.id = id;
+    public LineaFactura(TipoIVA tipoIVA,Factura factura, String concepto, Double cantidad, Double precioUnitario, Double porcentajeDescuento, Double importeTotal) {
         this.tipoIVA = tipoIVA;
+        this.factura = factura;
         this.concepto = concepto;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
@@ -63,23 +63,27 @@ public class LineaFactura implements Serializable {
         return tipoIVA;
     }
 
+    public Factura getFactura() {
+        return factura;
+    }
+
     public String getConcepto() {
         return concepto;
     }
 
-    public Long getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public Long getPrecioUnitario() {
+    public Double getPrecioUnitario() {
         return precioUnitario;
     }
 
-    public Long getPorcentajeDescuento() {
+    public Double getPorcentajeDescuento() {
         return porcentajeDescuento;
     }
 
-    public Long getImporteTotal() {
+    public Double getImporteTotal() {
         return importeTotal;
     }
 
@@ -91,30 +95,29 @@ public class LineaFactura implements Serializable {
         this.tipoIVA = tipoIVA;
     }
 
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
+
     public void setConcepto(String concepto) {
         this.concepto = concepto;
     }
 
-    public void setCantidad(Long cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 
-    public void setPrecioUnitario(Long precioUnitario) {
+    public void setPrecioUnitario(Double precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
 
-    public void setPorcentajeDescuento(Long porcentajeDescuento) {
+    public void setPorcentajeDescuento(Double porcentajeDescuento) {
         this.porcentajeDescuento = porcentajeDescuento;
     }
 
-    public void setImporteTotal(Long importeTotal) {
+    public void setImporteTotal(Double importeTotal) {
         this.importeTotal = importeTotal;
     }
-    
-    
-    
 
 
-
-    
 }

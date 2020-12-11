@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,19 +32,13 @@ public class Pago implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn( name = "CLIENTE_ID")
-    private Cliente cliente;
-
-    @OneToOne
     @JoinColumn( name = "FACTURA_ID")
     private Factura factura;
         
     @Enumerated(EnumType.STRING)
     private EstadoPago estadoPago;
         
-    private String nombre;
-    private String nif;
-    private Long importe;
+    private Double importe;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
@@ -53,23 +46,15 @@ public class Pago implements Serializable {
     public Pago() {
     }
 
-    public Pago(Long id, Cliente cliente, Factura factura, EstadoPago estadoPago, String nombre, String nif, Long importe, Date fecha) {
-        this.id = id;
-        this.cliente = cliente;
+    public Pago(Factura factura, EstadoPago estadoPago,Double importe, Date fecha) {
         this.factura = factura;
         this.estadoPago = estadoPago;
-        this.nombre = nombre;
-        this.nif = nif;
         this.importe = importe;
         this.fecha = fecha;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
     }
 
     public Factura getFactura() {
@@ -80,15 +65,7 @@ public class Pago implements Serializable {
         return estadoPago;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getNif() {
-        return nif;
-    }
-
-    public Long getImporte() {
+    public Double getImporte() {
         return importe;
     }
 
@@ -100,10 +77,6 @@ public class Pago implements Serializable {
         this.id = id;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public void setFactura(Factura factura) {
         this.factura = factura;
     }
@@ -112,15 +85,7 @@ public class Pago implements Serializable {
         this.estadoPago = estadoPago;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setNif(String nif) {
-        this.nif = nif;
-    }
-
-    public void setImporte(Long importe) {
+    public void setImporte(Double importe) {
         this.importe = importe;
     }
 

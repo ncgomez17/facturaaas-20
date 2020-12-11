@@ -37,27 +37,31 @@ public class Factura implements Serializable {
     private EstadoFactura estadoFactura;
     
     @ManyToOne
+    @JoinColumn(name = "USUARIO_ID")
+    private Usuario usuario;
+        
+    @ManyToOne
     @JoinColumn(name = "CLIENTE_ID")
     private Cliente cliente;
     
     private String nombre;
     private String nif;
-    private double importe;
-    private double sumaTotal;
+    private Double importe;
+    private Double sumaTotal;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "factura", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "factura", fetch = FetchType.LAZY)
     private List<LineaFactura> lineasDeFactura;
     
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "factura", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "factura", fetch = FetchType.LAZY)
     private Pago pago;
     
     public Factura(){
         
     }
 
-    public Factura(Long id, EstadoFactura estadoFactura, Cliente cliente, String nombre, String nif, double importe, double sumaTotal, List<LineaFactura> lineasDeFactura) {
-        this.id = id;
+    public Factura( EstadoFactura estadoFactura,Usuario usuario, Cliente cliente, String nombre, String nif, Double importe, Double sumaTotal, List<LineaFactura> lineasDeFactura) {
         this.estadoFactura = estadoFactura;
+        this.usuario = usuario;
         this.cliente = cliente;
         this.nombre = nombre;
         this.nif = nif;
@@ -74,6 +78,10 @@ public class Factura implements Serializable {
         return estadoFactura;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -86,16 +94,20 @@ public class Factura implements Serializable {
         return nif;
     }
 
-    public double getImporte() {
+    public Double getImporte() {
         return importe;
     }
 
-    public double getSumaTotal() {
+    public Double getSumaTotal() {
         return sumaTotal;
     }
 
     public List<LineaFactura> getLineasDeFactura() {
         return lineasDeFactura;
+    }
+
+    public Pago getPago() {
+        return pago;
     }
 
     public void setId(Long id) {
@@ -104,6 +116,10 @@ public class Factura implements Serializable {
 
     public void setEstadoFactura(EstadoFactura estadoFactura) {
         this.estadoFactura = estadoFactura;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public void setCliente(Cliente cliente) {
@@ -118,11 +134,11 @@ public class Factura implements Serializable {
         this.nif = nif;
     }
 
-    public void setImporte(double importe) {
+    public void setImporte(Double importe) {
         this.importe = importe;
     }
 
-    public void setSumaTotal(double sumaTotal) {
+    public void setSumaTotal(Double sumaTotal) {
         this.sumaTotal = sumaTotal;
     }
 
@@ -130,7 +146,8 @@ public class Factura implements Serializable {
         this.lineasDeFactura = lineasDeFactura;
     }
 
-
-
-    
+    public void setPago(Pago pago) {
+        this.pago = pago;
+    }
+ 
 }
