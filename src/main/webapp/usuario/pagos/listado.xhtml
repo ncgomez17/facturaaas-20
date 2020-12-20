@@ -5,7 +5,12 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"                
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:b="http://bootsfaces.net/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:o="http://omnifaces.org/ui">
+    
+    <o:importConstants type="es.uvigo.esei.dagss.facturaaas.entidades.Cliente" />
+    
+    
     <ui:define name="menu">
         <ui:include src="/WEB-INF/includes/menu-usuario.xhtml"/>
     </ui:define>
@@ -14,9 +19,63 @@
         <h1>Pagos</h1>
     </ui:define>
 
+
     <ui:define name="contenido">
-        <h2>Historia de usuario H16</h2>
-    </ui:define>    
+        <h:form id="formularioListadoPago">     
+            <b:container fluid="true">
+                <b:panel title="Listado de Pagos" collapsible="false" offset="1" span="9">
+                    <b:panelGrid columns="1" >
+                            <h:outputLabel value="Cliente" for="tipoFacturacion"/>
+                        <b:selectOneMenu colMd="2" id="clienteListaBusqueda" converter="omnifaces.SelectItemsConverter" value="#{pagosController.clienteBusqueda}"> 
+                            <f:selectItems var="clientePago" value="#{pagoController.listadoClientes()}" itemValue="#{clientePago}" 
+                                           itemLabel="#{clientePago.nombre}"/> 
+                        </b:selectOneMenu>
+                        <b:commandButton value="Buscar por Cliente"  
+                                         actionListener="#{pagosController.doBuscarConPropietarioPorCliente()}"
+                                         update=":formularioListadoPago:tablaListadoPago :mensajesGlobal"/>    
+                    </b:panelGrid>
+                    <br></br>
+                    <b:dataTable id="tablaListadoPago"  class="tablaListadoClassPago"
+                                 value="#{pagosController.pagos}"
+                                 var="pagos" 
+                                 striped="true" 
+                                 page-length="10" searching="false">
+                        <b:dataTableColumn label="Id">
+                            <h:outputText value="#{pagos.id}"/>
+                        </b:dataTableColumn>
+
+                        <b:dataTableColumn label="Factura">
+                            <h:outputText value="#{pagos.factura}" />
+                        </b:dataTableColumn>      
+                        
+                        <b:dataTableColumn label="Estado de Pago">
+                            <h:outputText value="#{pagos.estadoPago}" />
+                        </b:dataTableColumn>                  
+
+                        <b:dataTableColumn label="Importe">
+                            <h:outputText value="#{pagos.importe}" />
+                        </b:dataTableColumn>                  
+
+                        <b:dataTableColumn label="Fecha">
+                            <h:outputText value="#{pagos.fecha}" />
+                        </b:dataTableColumn>   
+
+
+                        <b:dataTableColumn label="" orderable="false">
+                            <b:commandButton id="botonEditarPago" icon-awesome="pencil" tooltip="Editar Pago" ajax="true" 
+                                             actionListener="#{pagosController.doEditar(pagos)}" 
+                                             update=":formularioEditarPago"
+                                             oncomplete="$('.modal-editar-class-pago').modal('show')"/>                                                                                                                    
+                        </b:dataTableColumn>                            
+                    </b:dataTable>
+
+                </b:panel>
+            </b:container>
+        </h:form>  
+        
+        <ui:include src="fragmento-editar.xhtml"/>
+
+    </ui:define> 
     
     
 </ui:composition>

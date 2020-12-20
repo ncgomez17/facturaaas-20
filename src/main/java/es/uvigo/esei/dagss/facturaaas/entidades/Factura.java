@@ -53,13 +53,13 @@ public class Factura implements Serializable {
     private List<LineaFactura> lineasDeFactura;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "factura", fetch = FetchType.LAZY)
-    private Pago pago;
+    private List<Pago> pago;
     
     public Factura(){
         
     }
 
-    public Factura( EstadoFactura estadoFactura,Usuario usuario, Cliente cliente, String nombre, String nif, Double importe, Double sumaTotal, List<LineaFactura> lineasDeFactura) {
+    public Factura( EstadoFactura estadoFactura,Usuario usuario, Cliente cliente, String nombre, String nif, Double importe, Double sumaTotal, List<LineaFactura> lineasDeFactura,List<Pago> pagos) {
         this.estadoFactura = estadoFactura;
         this.usuario = usuario;
         this.cliente = cliente;
@@ -68,6 +68,7 @@ public class Factura implements Serializable {
         this.importe = importe;
         this.sumaTotal = sumaTotal;
         this.lineasDeFactura = lineasDeFactura;
+        this.pago = pagos;
     }
 
     public Long getId() {
@@ -106,9 +107,10 @@ public class Factura implements Serializable {
         return lineasDeFactura;
     }
 
-    public Pago getPago() {
+    public List<Pago> getPago() {
         return pago;
     }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -146,8 +148,10 @@ public class Factura implements Serializable {
         this.lineasDeFactura = lineasDeFactura;
     }
 
-    public void setPago(Pago pago) {
+    public void setPago(List<Pago> pago) {
         this.pago = pago;
     }
+    
+
  
 }

@@ -11,6 +11,7 @@ import es.uvigo.esei.dagss.facturaaas.entidades.Pago;
 import es.uvigo.esei.dagss.facturaaas.entidades.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -20,13 +21,25 @@ import javax.ejb.Stateless;
 public class PagoDAOJPA extends GenericoDAOJPA<Pago, Long> implements PagoDAO{
 
     @Override
-    public Pago buscarConPropietario(Usuario propietario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Pago> buscarConPropietario(Usuario propietario) {
+        System.out.println("Buscar pago por id de usuario");
+        System.out.println("Usuario: " + propietario.getId());
+        TypedQuery<Pago> query = em.createQuery("SELECT pago FROM Pago AS pago WHERE pago.factura.usuario.id = :idPropietario", Pago.class);
+        query.setParameter("idPropietario", propietario.getId());
+        List<Pago> resultado = query.getResultList();
+        return resultado;
     }
 
     @Override
-    public List<Factura> buscarPorClienteConPropietario(Usuario propietario, Cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Pago> buscarPorClienteConPropietario(Usuario propietario, Cliente cliente) {
+        System.out.println("Buscar factura por cliente");
+        System.out.println("Usuario: " + propietario.getId());
+        System.out.println("Cliente: " + cliente.getId());
+        TypedQuery<Pago> query = em.createQuery("SELECT pago FROM Pago AS pago WHERE pago.factura.usuario.id = :idPropietario AND pago.factura.cliente.id = :idCliente", Pago.class);
+        query.setParameter("idPropietario", propietario.getId());
+        query.setParameter("idCliente", cliente.getId());
+        List<Pago> resultado = query.getResultList();
+        return resultado;
     }
 
 }

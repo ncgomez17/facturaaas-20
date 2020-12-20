@@ -21,13 +21,33 @@ public class FacturaDAOJPA extends GenericoDAOJPA<Factura, Long> implements Fact
 
     @Override
     public List<Factura> buscarConPropietario(Usuario propietario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Buscar factura por id de usuario");
+        System.out.println("Usuario: " + propietario.getId());
+        TypedQuery<Factura> query = em.createQuery("SELECT fac FROM Factura AS fac WHERE fac.usuario.id = :idPropietario", Factura.class);
+        query.setParameter("idPropietario", propietario.getId());
+        List<Factura> resultado = query.getResultList();
+        return resultado;
     }
 
     @Override
     public List<Factura> buscarPorClienteConPropietario(Usuario propietario, Cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Buscar factura por cliente");
+        System.out.println("Usuario: " + propietario.getId());
+        System.out.println("Cliente: " + cliente.getId());
+        TypedQuery<Factura> query = em.createQuery("SELECT fac FROM Factura AS fac WHERE fac.usuario.id = :idPropietario AND fac.cliente.id = :idCliente", Factura.class);
+        query.setParameter("idPropietario", propietario.getId());
+        query.setParameter("idCliente", cliente.getId());
+        List<Factura> resultado = query.getResultList();
+        return resultado;
     }
+
+    @Override
+    public Factura buscarPorIdConLineas(Long id) {
+        Factura toret = this.buscarPorClave(id);
+        toret.getLineasDeFactura();
+        return toret;
+    }
+
 
 
     

@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition>
+
+        <h:form id="formularioEditarFactura" >
+            <b:modal id="modalEditar" class="modal-editar-class-factura" title="Editar Factura">
+                <b:container fluid="true">
+                    <b:panel title="Editar Factura" 
+                             rendered="#{not empty facturaController.facturaActual}" 
+                             collapsible="false">
+                        <b:panelGrid columns="2" >
+                            <h:outputLabel value="Id" for="id"/>
+                            <b:inputText id="id" value="#{facturaController.facturaActual.id}" readonly="true"/>
+                            
+                            <h:outputLabel value="Estado Factura" for="estadoFactura"/>
+                            <b:inputText id="estadoFactura" value="#{facturaController.facturaActual.estadoFactura}" required="true"/>
+                           
+                            <h:outputLabel value="Usuario" for="usuario"/>
+                            <b:inputText id="usuario" value="#{facturaController.facturaActual.usuario}" required="true"/>
+                            
+                            <h:outputLabel value="Cliente" for="cliente"/>
+                            <b:inputText id="cliente" value="#{facturaController.facturaActual.cliente}" required="true"/>
+                            
+                            <h:outputLabel value="Nombre" for="nombre"/>
+                            <b:inputText id="nombre" value="#{facturaController.facturaActual.nombre}" readonly="true"/>
+                            
+                            <h:outputLabel value="NIF" for="nif"/>
+                            <b:inputText id="nif" value="#{facturaController.facturaActual.nif}" required="true"/>
+                            
+                            <h:outputLabel value="Importe" for="importe"/>
+                            <b:inputText id="importe" value="#{facturaController.facturaActual.importe}" required="true"/>
+                           
+                            <h:outputLabel value="SumaTotal" for="sumaTotal"/>
+                            <b:inputText id="sumaTotal" value="#{facturaController.facturaActual.sumaTotal}" required="true"/>
+                            
+                        </b:panelGrid>
+
+                        <b:commandButton value="Guardar Cambios" 
+                                         ajax="true" process="@form" update=":formularioListadoFactura:tablaListadoFactura :mensajesGlobal " 
+                                         actionListener="#{facturaController.doGuardarEditado()}"  
+                                         oncomplete="$('.modal-editar-class-factura').modal('hide')"/>
+
+                        <b:commandButton value="Cancelar" immediate="true"
+                                         ajax="true" process="@form" update=":formularioListadoFactura:tablaListadoFactura :mensajesGlobal " 
+                                         actionListener="#{facturaController.doCancelarEditado()}" 
+                                         oncomplete="$('.modal-editar-class-factura').modal('hide')" />
+                    </b:panel>
+                </b:container>
+            </b:modal>
+        </h:form>
+
+    </ui:composition>
+</html>

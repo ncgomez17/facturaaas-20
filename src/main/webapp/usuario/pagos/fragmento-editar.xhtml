@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition>
+
+        <h:form id="formularioEditarPago" >
+            <b:modal id="modalEditar" class="modal-editar-class-pago" title="Editar Pago">
+                <b:container fluid="true">
+                    <b:panel title="Editar Pago" 
+                             rendered="#{not empty pagosController.pagoActual}" 
+                             collapsible="false">
+                        <b:panelGrid columns="2" >
+                            <h:outputLabel value="Id" for="id"/>
+                            <b:inputText id="id" value="#{pagosController.pagoActual.id}" readonly="true"/>
+                            
+                            <h:outputLabel value="Factura" for="factura"/>
+                            <b:inputText id="factura" value="#{pagosController.pagoActual.factura}"  readonly="true"/>
+                            
+                            <h:outputLabel value="EstadoPago" for="estadopago"/>
+                            <b:inputText id="estadopago" value="#{pagosController.pagoActual.estadoPago}" required="true"/>
+                            
+                            <h:outputLabel value="Importe" for="importe"/>
+                            <b:inputText id="importe" value="#{pagosController.pagoActual.importe}" readonly="true"/>
+                            
+                            <h:outputLabel value="Fecha" for="fecha"/>
+                            <b:inputText id="fecha" value="#{pagosController.pagoActual.fecha}" readonly="true"/>
+                           
+                        </b:panelGrid>
+
+                        <b:commandButton value="Guardar Cambios" 
+                                         ajax="true" process="@form" update=":formularioListadoPago:tablaListadoPago :mensajesGlobal " 
+                                         actionListener="#{pagosController.doGuardarEditado()}"  
+                                         oncomplete="$('.modal-editar-class-pago').modal('hide')"/>
+
+                        <b:commandButton value="Cancelar" immediate="true"
+                                         ajax="true" process="@form" update=":formularioListadoPago:tablaListadoPago :mensajesGlobal " 
+                                         actionListener="#{pagosController.doCancelarEditado()}" 
+                                         oncomplete="$('.modal-editar-class-pago').modal('hide')" />
+                    </b:panel>
+                </b:container>
+            </b:modal>
+        </h:form>
+
+    </ui:composition>
+</html>

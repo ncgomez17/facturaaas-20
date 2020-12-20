@@ -6,6 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
     <ui:define name="menu">
         <ui:include src="/WEB-INF/includes/menu-usuario.xhtml"/>
     </ui:define>
@@ -14,8 +15,76 @@
         <h1>Facturas</h1>
     </ui:define>
 
+
     <ui:define name="contenido">
-        <h2>Historia de usuario H14</h2>
+        <h:form id="formularioListadoFactura">     
+            <b:container fluid="true">
+                <b:panel title="Listado de Facturas" collapsible="false" offset="1" span="9">
+                    <b:panelGrid columns="1" >
+                            <h:outputLabel value="Cliente" for="tipoFacturacion"/>
+                        <b:selectOneMenu colMd="2" id="clienteListaBusqueda" converter="omnifaces.SelectItemsConverter" value="#{facturaController.clienteBusqueda}"> 
+                            <f:selectItems var="clienteFactura" value="#{facturaController.listadoClientes()}" itemValue="#{clienteFactura}" 
+                                           itemLabel="#{clienteFactura.nombre}"/> 
+                        </b:selectOneMenu>
+                        <b:commandButton value="Buscar por Cliente"  
+                                         actionListener="#{facturaController.doBuscarConPropietarioPorCliente()}"
+                                         update=":formularioListadoFactura:tablaListadoFactura :mensajesGlobal"/>    
+                    </b:panelGrid>
+                    <br></br>
+                    <b:dataTable id="tablaListadoFactura"  class="tablaListadoClassFactura"
+                                 value="#{facturaController.pagos}"
+                                 var="factura" 
+                                 striped="true" 
+                                 page-length="10" searching="false">
+                        <b:dataTableColumn label="Id">
+                            <h:outputText value="#{factura.id}"/>
+                        </b:dataTableColumn>
+
+                        <b:dataTableColumn label="Estado Factura">
+                            <h:outputText value="#{factura.estadofactura}" />
+                        </b:dataTableColumn>      
+                        
+                        <b:dataTableColumn label="Usuario">
+                            <h:outputText value="#{factura.usuario}" />
+                        </b:dataTableColumn>                   
+
+                        <b:dataTableColumn label="Cliente">
+                            <h:outputText value="#{factura.cliente}" />
+                        </b:dataTableColumn>            
+
+                        <b:dataTableColumn label="Nombre">
+                            <h:outputText value="#{factura.nombre}" />
+                        </b:dataTableColumn>
+                        
+                        <b:dataTableColumn label="NIF">
+                            <h:outputText value="#{factura.nif}" />
+                        </b:dataTableColumn>   
+                        
+                        <b:dataTableColumn label="Importe">
+                            <h:outputText value="#{factura.importe}" />
+                        </b:dataTableColumn>                   
+
+                        <b:dataTableColumn label="Suma Total">
+                            <h:outputText value="#{factura.sumaTotal}" />
+                        </b:dataTableColumn>            
+
+
+
+
+                        <b:dataTableColumn label="" orderable="false">
+                            <b:commandButton id="botonEditarFactura" icon-awesome="pencil" tooltip="Editar Factura" ajax="true" 
+                                             actionListener="#{facturaController.doEditar(factura)}" 
+                                             update=":formularioEditarFactura"
+                                             oncomplete="$('.modal-editar-class-factura').modal('show')"/>                                                                                                                    
+                        </b:dataTableColumn>                            
+                    </b:dataTable>
+
+                </b:panel>
+            </b:container>
+        </h:form>  
+        
+        <ui:include src="fragmento-editar.xhtml"/>
+
     </ui:define>  
     
     
