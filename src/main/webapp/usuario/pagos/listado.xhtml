@@ -26,44 +26,44 @@
                 <b:panel title="Listado de Pagos" collapsible="false" offset="1" span="9">
                     <b:panelGrid columns="1" >
                             <h:outputLabel value="Cliente" for="tipoFacturacion"/>
-                        <b:selectOneMenu colMd="2" id="clienteListaBusqueda" converter="omnifaces.SelectItemsConverter" value="#{pagosController.clienteBusqueda}"> 
-                            <f:selectItems var="clientePago" value="#{pagoController.listadoClientes()}" itemValue="#{clientePago}" 
-                                           itemLabel="#{clientePago.nombre}"/> 
+                        <b:selectOneMenu colMd="2" id="clienteListaBusqueda" converter="omnifaces.SelectItemsConverter" value="#{facturasController.clienteBusqueda}"> 
+                            <f:selectItems var="clienteFactura" value="#{facturasController.listadoClientes()}" itemValue="#{clienteFactura}" 
+                                           itemLabel="#{clienteFactura.nombre}"/> 
                         </b:selectOneMenu>
                         <b:commandButton value="Buscar por Cliente"  
-                                         actionListener="#{pagosController.doBuscarConPropietarioPorCliente()}"
-                                         update=":formularioListadoPago:tablaListadoPago :mensajesGlobal"/>    
+                                         actionListener="#{facturasController.doBuscarConPropietarioPorClientepago()}"
+                                         update=":formularioListadoPago:tablaListadoPago :mensajesGlobal"/>  
                     </b:panelGrid>
                     <br></br>
                     <b:dataTable id="tablaListadoPago"  class="tablaListadoClassPago"
-                                 value="#{pagosController.pagos}"
-                                 var="pagos" 
+                                 value="#{facturasController.pagos}"
+                                 var="pago" 
                                  striped="true" 
                                  page-length="10" searching="false">
                         <b:dataTableColumn label="Id">
-                            <h:outputText value="#{pagos.id}"/>
+                            <h:outputText value="#{pago.id}"/>
                         </b:dataTableColumn>
 
                         <b:dataTableColumn label="Factura">
-                            <h:outputText value="#{pagos.factura}" />
+                            <h:outputText value="#{pago.factura.id}" />
                         </b:dataTableColumn>      
                         
                         <b:dataTableColumn label="Estado de Pago">
-                            <h:outputText value="#{pagos.estadoPago}" />
+                            <h:outputText value="#{pago.estadoPago}" />
                         </b:dataTableColumn>                  
 
                         <b:dataTableColumn label="Importe">
-                            <h:outputText value="#{pagos.importe}" />
+                            <h:outputText value="#{pago.importe}" />
                         </b:dataTableColumn>                  
 
                         <b:dataTableColumn label="Fecha">
-                            <h:outputText value="#{pagos.fecha}" />
+                            <h:outputText value="#{pago.fecha}" />
                         </b:dataTableColumn>   
 
 
                         <b:dataTableColumn label="" orderable="false">
                             <b:commandButton id="botonEditarPago" icon-awesome="pencil" tooltip="Editar Pago" ajax="true" 
-                                             actionListener="#{pagosController.doEditar(pagos)}" 
+                                             actionListener="#{facturasController.doEditarPago(pago)}" 
                                              update=":formularioEditarPago"
                                              oncomplete="$('.modal-editar-class-pago').modal('show')"/>                                                                                                                    
                         </b:dataTableColumn>                            

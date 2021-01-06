@@ -6,6 +6,7 @@
 package es.uvigo.esei.dagss.facturaaas.entidades;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -117,6 +118,72 @@ public class LineaFactura implements Serializable {
 
     public void setImporteTotal(Double importeTotal) {
         this.importeTotal = importeTotal;
+    }
+    
+    @Override
+    public int hashCode() {
+        if (id != null) {
+            return Objects.hashCode(this.id);
+        } else {
+            return hashCodePorContenido();
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (id != null) {
+            return equalsPorId(obj);
+        } else {
+            return equalsPorContenido(obj);
+        }
+    }
+
+    public boolean equalsPorId(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final LineaFactura other = (LineaFactura) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    public int hashCodePorContenido() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.cantidad);
+        hash = 97 * hash + Objects.hashCode(this.importeTotal);
+        hash = 97 * hash + Objects.hashCode(this.porcentajeDescuento);
+        return hash;
+    }
+
+    public boolean equalsPorContenido(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final LineaFactura other = (LineaFactura) obj;
+        if (!Objects.equals(this.cantidad, other.cantidad)) {
+            return false;
+        }
+        if (!Objects.equals(this.importeTotal, other.importeTotal)) {
+            return false;
+        }
+        if (!Objects.equals(this.porcentajeDescuento, other.porcentajeDescuento)) {
+            return false;
+        }
+        return true;
     }
 
 

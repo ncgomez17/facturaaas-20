@@ -12,34 +12,47 @@
             <b:modal id="modalEditar" class="modal-editar-class-pago" title="Editar Pago">
                 <b:container fluid="true">
                     <b:panel title="Editar Pago" 
-                             rendered="#{not empty pagosController.pagoActual}" 
+                             rendered="#{not empty facturasController.pagoActual}" 
                              collapsible="false">
                         <b:panelGrid columns="2" >
+                            
+                            <h:panelGroup>
                             <h:outputLabel value="Id" for="id"/>
-                            <b:inputText id="id" value="#{pagosController.pagoActual.id}" readonly="true"/>
+                            <b:inputText id="id" value="#{facturasController.pagoActual.id}" readonly="true"/>
+                            </h:panelGroup>
                             
+                            <h:panelGroup>
                             <h:outputLabel value="Factura" for="factura"/>
-                            <b:inputText id="factura" value="#{pagosController.pagoActual.factura}"  readonly="true"/>
+                            <b:inputText id="factura" value="#{facturasController.pagoActual.factura.id}"  readonly="true"/>
+                            </h:panelGroup>
                             
-                            <h:outputLabel value="EstadoPago" for="estadopago"/>
-                            <b:inputText id="estadopago" value="#{pagosController.pagoActual.estadoPago}" required="true"/>
+                            <h:panelGroup>
+                                <h:outputLabel value="Estado de Pago" for="estadoPago"/>
+                                <b:selectOneMenu value="#{facturasController.pagoActual.estadoPago}" ajax="true" >
+                                    <f:converter converterId="omnifaces.GenericEnumConverter" />
+                                    <f:selectItems value="#{facturasController.estadosPago}"/>
+                                </b:selectOneMenu>
+                            </h:panelGroup>   
+                            <h:panelGroup>
+                                <h:outputLabel value="Importe" for="importe"/>
+                                <b:inputText id="importe" value="#{facturasController.pagoActual.importe}" readonly="true"/>
+                            </h:panelGroup>
                             
-                            <h:outputLabel value="Importe" for="importe"/>
-                            <b:inputText id="importe" value="#{pagosController.pagoActual.importe}" readonly="true"/>
-                            
-                            <h:outputLabel value="Fecha" for="fecha"/>
-                            <b:inputText id="fecha" value="#{pagosController.pagoActual.fecha}" readonly="true"/>
+                            <h:panelGroup>
+                                <h:outputLabel value="Fecha" for="fecha"/>
+                                <b:inputText id="fecha" value="#{facturasController.pagoActual.fecha}" readonly="true"/>
+                            </h:panelGroup>
                            
                         </b:panelGrid>
 
                         <b:commandButton value="Guardar Cambios" 
                                          ajax="true" process="@form" update=":formularioListadoPago:tablaListadoPago :mensajesGlobal " 
-                                         actionListener="#{pagosController.doGuardarEditado()}"  
+                                         actionListener="#{facturasController.doGuardarPago()}"  
                                          oncomplete="$('.modal-editar-class-pago').modal('hide')"/>
 
                         <b:commandButton value="Cancelar" immediate="true"
                                          ajax="true" process="@form" update=":formularioListadoPago:tablaListadoPago :mensajesGlobal " 
-                                         actionListener="#{pagosController.doCancelarEditado()}" 
+                                         actionListener="#{facturasController.doCancelarEditadoPago()}" 
                                          oncomplete="$('.modal-editar-class-pago').modal('hide')" />
                     </b:panel>
                 </b:container>

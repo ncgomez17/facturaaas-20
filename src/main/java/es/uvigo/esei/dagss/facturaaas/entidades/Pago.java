@@ -7,6 +7,7 @@ package es.uvigo.esei.dagss.facturaaas.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -91,6 +92,68 @@ public class Pago implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+    
+    @Override
+    public int hashCode() {
+        if (id != null) {
+            return Objects.hashCode(this.id);
+        } else {
+            return hashCodePorContenido();
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (id != null) {
+            return equalsPorId(obj);
+        } else {
+            return equalsPorContenido(obj);
+        }
+    }
+
+    public boolean equalsPorId(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pago other = (Pago) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    public int hashCodePorContenido() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.fecha);
+        hash = 97 * hash + Objects.hashCode(this.importe);
+        return hash;
+    }
+
+    public boolean equalsPorContenido(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Pago other = (Pago) obj;
+        if (!Objects.equals(this.importe, other.importe)) {
+            return false;
+        }
+        if (!Objects.equals(this.fecha, other.fecha)) {
+            return false;
+        }
+        return true;
     }
     
     

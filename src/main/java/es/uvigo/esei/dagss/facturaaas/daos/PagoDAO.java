@@ -18,4 +18,5 @@ import java.util.List;
 public interface PagoDAO extends GenericoDAO<Pago, Long>{
      public List<Pago> buscarConPropietario(Usuario propietario);
      public List<Pago> buscarPorClienteConPropietario(Usuario propietario, Cliente cliente);
+     public List<Pago> buscarPorFacturaPago(Usuario propietario, Factura factura);
 }

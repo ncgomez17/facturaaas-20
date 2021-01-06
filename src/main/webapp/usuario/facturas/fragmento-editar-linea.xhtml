@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <ui:composition>
+        <b:modal id="modalEditarLinea" class="modal-editarLinea-class" title="Crear/Editar LineaDeFactura">
+            <h:form id="formularioEditarLineaFactura">
+
+                <b:container fluid="true">
+                    <b:panel title="Crear/Editar LineaDeFactura" 
+                             rendered="#{not empty facturasController.lineaActual}" 
+                             collapsible="false"> 
+                        <b:panelGrid columns="2" col-spans="4,8">
+                            
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Número de Línea" for="linea" />
+                                <b:inputText id="linea" readonly="true" value="#{facturasController.lineaActual.id}"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel value="Concepto" for="concepto"/>
+                                <b:inputText id="concepto" value="#{facturasController.lineaActual.concepto}"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Cantidad" for="cantidad"/>
+                                <b:inputText id="cantidad" value="#{facturasController.lineaActual.cantidad}" />
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <h:outputLabel value="TipoIva" for="tipoIva"/> 
+                                <b:selectOneMenu id="tipoIva" value="#{facturasController.lineaActual.tipoIVA}" ajax="true" >
+                                    <f:converter converterId="omnifaces.SelectItemsConverter" />
+                                    <f:selectItems var="tipoIVA" value="#{facturasController.listadoTipoIVA()}"
+                                                   itemValue="#{tipoIVA}" itemLabel="#{tipoIVA.nombre}(#{tipoIVA.porcentaje})"/>
+                                </b:selectOneMenu>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Precio Unitario" for="precioUnitario"/>
+                                <b:inputText id="precioUnitario" value="#{facturasController.lineaActual.precioUnitario}"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <h:outputLabel value="Porcentaje Descuento" for="porcentaje"/>
+                                <b:inputText id="porcentaje" value="#{facturasController.lineaActual.porcentajeDescuento}">
+                                    <f:validateDoubleRange minimum="0" maximum="99"/>   
+                                </b:inputText>
+                            </h:panelGroup>
+
+                        </b:panelGrid> 
+
+
+                        <b:commandButton value="Guardar Cambios" 
+                                         ajax="true" process="@form" update=":formularioListadoLineaFactura:tablaListadoLineaDeFactura :formularioListadoFactura :mensajesGlobal" 
+                                         actionListener="#{facturasController.doGuardarEditadoLinea()}"  
+                                         oncomplete="$('.modal-editarLinea-class').modal('hide')"/>
+
+                        <b:commandButton value="Cancelar" immediate="true"
+                                         ajax="true" process="@form" update=":formularioListadoLineaFactura:tablaListadoLineaDeFactura :formularioListadoFactura :mensajesGlobal" 
+                                         actionListener="#{facturasController.doCancelarEditadoLinea()}" 
+                                         oncomplete="$('.modal-editarLinea-class').modal('hide')" />
+                    </b:panel>
+                </b:container>
+
+            </h:form>
+
+        </b:modal>
+    </ui:composition>
+
+</html>
+

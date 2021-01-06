@@ -7,6 +7,7 @@ package es.uvigo.esei.dagss.facturaaas.daos;
 
 import es.uvigo.esei.dagss.facturaaas.entidades.Cliente;
 import es.uvigo.esei.dagss.facturaaas.entidades.Factura;
+import es.uvigo.esei.dagss.facturaaas.entidades.LineaFactura;
 import es.uvigo.esei.dagss.facturaaas.entidades.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -42,12 +43,29 @@ public class FacturaDAOJPA extends GenericoDAOJPA<Factura, Long> implements Fact
     }
 
     @Override
-    public Factura buscarPorIdConLineas(Long id) {
+    public List<LineaFactura> buscarPorIdConLineas(Long id) {
         Factura toret = this.buscarPorClave(id);
-        toret.getLineasDeFactura();
-        return toret;
+        System.out.println("Numero de lineas"+toret.getLineasDeFactura().size());
+        return toret.getLineasDeFactura();
     }
-
+    @Override
+    public LineaFactura crearLineas(LineaFactura l) {
+         this.em.persist(l);
+         this.em.flush();
+         return l;
+    }
+    @Override
+    public LineaFactura actualizarLineas(LineaFactura l) {
+         LineaFactura toret = em.merge(l);
+         em.flush();
+         return toret;
+    }
+    @Override
+    public void borrarLineas(LineaFactura l) {
+        em.remove(em.merge(l));
+        em.flush();
+    }
+    
 
 
     

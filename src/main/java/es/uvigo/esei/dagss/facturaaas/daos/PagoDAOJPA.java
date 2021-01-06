@@ -32,12 +32,22 @@ public class PagoDAOJPA extends GenericoDAOJPA<Pago, Long> implements PagoDAO{
 
     @Override
     public List<Pago> buscarPorClienteConPropietario(Usuario propietario, Cliente cliente) {
-        System.out.println("Buscar factura por cliente");
+        System.out.println("Buscar pago por cliente");
         System.out.println("Usuario: " + propietario.getId());
         System.out.println("Cliente: " + cliente.getId());
         TypedQuery<Pago> query = em.createQuery("SELECT pago FROM Pago AS pago WHERE pago.factura.usuario.id = :idPropietario AND pago.factura.cliente.id = :idCliente", Pago.class);
         query.setParameter("idPropietario", propietario.getId());
         query.setParameter("idCliente", cliente.getId());
+        List<Pago> resultado = query.getResultList();
+        return resultado;
+    }
+    @Override
+    public List<Pago> buscarPorFacturaPago(Usuario propietario, Factura factura) {
+        System.out.println("Buscar factura por cliente");
+        System.out.println("Usuario: " + propietario.getId());
+        TypedQuery<Pago> query = em.createQuery("SELECT pago FROM Pago AS pago WHERE pago.factura.usuario.id = :idPropietario AND pago.factura.id = :idFactura", Pago.class);
+        query.setParameter("idPropietario", propietario.getId());
+        query.setParameter("idFactura", factura.getId());
         List<Pago> resultado = query.getResultList();
         return resultado;
     }
