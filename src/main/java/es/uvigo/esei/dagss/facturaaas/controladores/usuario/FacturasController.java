@@ -371,6 +371,8 @@ public class FacturasController implements Serializable {
             facturaDAO.actualizarLineas(lineaActual);
         }
         this.facturaDAO.actualizar(facturaActual);
+        this.borrarPagos(facturaActual);
+        this.crearPagos();
         this.lineasFacturaActual = refrescarListadoLineas();
         this.lineaActual=null;
         this.esNuevaLinea=false;
