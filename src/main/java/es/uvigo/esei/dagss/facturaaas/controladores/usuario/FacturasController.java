@@ -413,6 +413,8 @@ public class FacturasController implements Serializable {
         facturaActual.setImporte(importe);
         facturaActual.setSumaTotal(sumatotal);
         this.facturaDAO.actualizar(facturaActual);
+        this.borrarPagos(facturaActual);
+        this.crearPagos();
         this.lineasFacturaActual = refrescarListadoLineas();
         this.lineaActual = null;
 
